@@ -1,7 +1,18 @@
 [tool.poetry]
 name = "test-pypi222"
-version = "0.7.9"
+version = "0.1.0"
 description = "blabla bloblo bliblibli"
 authors = ["sanix-darker <s4nixd@gmail.com>"]
-readme = "README.md"
-homepage = "https://github.com/sanix-darker/test-pypi222"
+license = "BSD-3-Clause"
+packages = [
+    { include = "test-pypi222" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
