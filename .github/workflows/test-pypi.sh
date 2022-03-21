@@ -18,7 +18,7 @@ if [ -f "$TOM_FILE" ]; then
 
      # installation of poetry
      pip install -U poetry
-     poetry build
+
      # configuration of the repository-url where the build will be pushed
      poetry config repositories.test https://test.pypi.org/legacy/
      poetry config pypi-token.pypi $TEST_PYPI_TOKEN
@@ -26,7 +26,7 @@ if [ -f "$TOM_FILE" ]; then
      sed -i 's/^.*version.*=.*$/version = '\"$TMP_VERSION\"'/' $TOM_FILE
 
      # We publish
-     poetry publish -r test-pypi
+     poetry publish -r test-pypi --build
 
 elif [ -f "$SETUP_FILE" ]; then
 
