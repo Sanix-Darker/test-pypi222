@@ -21,7 +21,7 @@ if [ -f "$TOM_FILE" ]; then
      poetry config repositories.test-pypi https://test.pypi.org/legacy/
      poetry config pypi-token.pypi $TEST_PYPI_TOKEN
 
-     sed -i 's/^.*version.*=.*$/version = '$TMP_VERSION'/' $TOM_FILE
+     sed -i 's/^.*version.*=.*$/version = '"$TMP_VERSION"'/' $TOM_FILE
 
      # We publish
      poetry publish --build
