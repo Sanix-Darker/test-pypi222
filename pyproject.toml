@@ -1,0 +1,7 @@
+[tool.poetry]
+name = "test-pypi222"
+version = "0.7.9"
+description = "blabla bloblo bliblibli"
+authors = ["sanix-darker <s4nixd@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/sanix-darker/test-pypi222"
