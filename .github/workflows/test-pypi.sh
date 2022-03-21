@@ -19,26 +19,31 @@ if [ -f "$TOM_FILE" ]; then
      # installation of poetry
      pip install -U poetry
 
-     # configuration of the repository-url where the build will be pushed
-     poetry config repositories.test-pypi https://test.pypi.org/legacy/
-     poetry config pypi-token.pypi $TEST_PYPI_TOKEN
-
      sed -i 's/^.*version.*=.*$/version = '\"$TMP_VERSION\"'/' $TOM_FILE
-
-     # We publish
-     poetry publish -r test-pypi --build
+     # the build process
+     poetry build
 
 elif [ -f "$SETUP_FILE" ]; then
 
      echo "[-] $SETUP_FILE exists, normal sdist/wheel build"
 
-     pip install wheel twine
+     pip install wheel
 
      sed -i 's/^.*version.*=.*$/version='$TMP_VERSION',/' $SETUP_FILE
-
+     # The build process
      python $SETUP_FILE sdist bdist_wheel
-     # we create our credential file for username, password and repository url
-     cat <<EOF > ~/.pypirc
+else
+
+     echo "[x] No $TOM_FILE nor $SETUP_FILE, will stop here !"
+     exit 1
+
+fi
+
+# The upload/publish process
+pip install twine
+
+# we create our credential file for username, password and repository url
+cat <<EOF > ~/.pypirc
 [distutils]
 index-servers =
   testpypi
@@ -49,16 +54,11 @@ password = $TEST_PYPI_TOKEN
 repository = https://test.pypi.org/legacy/
 
 EOF
-     # the upload process
-     twine upload -r testpypi dist/*
 
-else
+# the upload process
+twine upload -r testpypi dist/*
 
-     echo "[x] No $TOM_FILE nor $SETUP_FILE, will stop here !"
-     exit 1
-
-fi
-
+# we set output vars for next steps
 echo "::set-output name=PKG::$(echo "$REPOSITORY_NAME==$TMP_VERSION")"
 echo "::set-output name=MSG::$(echo "https://test.pypi.org/project/$REPOSITORY_NAME/$TMP_VERSION/")"
 
