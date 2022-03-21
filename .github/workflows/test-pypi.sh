@@ -22,7 +22,6 @@ if [ -f "$TOM_FILE" ]; then
      sed -i 's/^.*version.*=.*$/version = '\"$TMP_VERSION\"'/' $TOM_FILE
      # the build process
      poetry build
-
 elif [ -f "$SETUP_FILE" ]; then
 
      echo "[-] $SETUP_FILE exists, normal sdist/wheel build"
@@ -56,7 +55,7 @@ repository = https://test.pypi.org/legacy/
 EOF
 
 # the upload process
-twine upload -r testpypi dist/*
+twine upload -r testpypi "$GITHUB_WORKSPACE/dist/*"
 
 # we set output vars for next steps
 echo "::set-output name=PKG::$(echo "$REPOSITORY_NAME==$TMP_VERSION")"
