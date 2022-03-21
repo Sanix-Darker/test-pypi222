@@ -21,7 +21,9 @@ if [ -f "$TOM_FILE" ]; then
      poetry config repositories.test-pypi https://test.pypi.org/legacy/
      poetry config pypi-token.pypi $TEST_PYPI_TOKEN
 
-     sed -i 's/^.*version.*=.*$/version = '"$TMP_VERSION"'/' $TOM_FILE
+     sed -i 's/^.*version.*=.*$/version = '\"$TMP_VERSION\"'/' $TOM_FILE
+
+     cat $TOM_FILE
 
      # We publish
      poetry publish --build
@@ -33,6 +35,8 @@ elif [ -f "$SETUP_FILE" ]; then
      pip install wheel twine
 
      sed -i 's/^.*version.*=.*$/version='$TMP_VERSION',/' $SETUP_FILE
+
+     cat $SETUP_FILE
 
      python $SETUP_FILE sdist bdist_wheel
      # we create our credential file for username, password and repository url
